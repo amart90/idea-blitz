@@ -14,8 +14,8 @@ source("1_fetch.R")
 source("2_process.R")
 source("3_visualize.R")
 
-
 # Define parameters
+years <- c(1984, 2020)
 sf::sf_use_s2(FALSE)
 crs <- 9311
 conus <- state.abb %>%

@@ -14,13 +14,13 @@ p3_targets <- list(
              format = "file"),
   
   # Build frames for map animation
-  tar_target(map_animation_pngs,
-             iterate_map_years(basemap = basemap, fire_pts = map_data, 
-                               start_year = 1984, end_year = 2020, 
-                               col_fire = "#c94b10", col_bg = "#262626", 
-                               out_image_dir = "3_visualize/out/map_frames"),
+  tar_target(map_animation_png,
+             build_map_png(basemap = basemap, fire_pts = map_data, year = Years,
+                       col_fire = "#c94b10", col_bg = "#262626",
+                       file_out = sprintf("map_%s.png",Years)),
+             pattern = map(Years),
              format = "file")
-  
+
   # Morph images into animation
   
   # Use image_append(c(map_animation_gif, chart_animation_gif)) to stitch gifs together

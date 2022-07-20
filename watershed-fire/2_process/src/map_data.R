@@ -1,7 +1,7 @@
 # Process fire perimeter data
 prep_perims <- function(perim){
   perim %>%
-    mutate(Year = str_sub(Ig_Date, start = 1L, end = 4L),
+    mutate(Year = as.numeric(str_sub(Ig_Date, start = 1L, end = 4L)),
            State = str_sub(Event_ID, start = 1L, end = 2L)) %>%
     filter(Incid_Type %in% c("Wildfire", "Wildland Fire Use"),
            State %in% conus) %>%
@@ -11,10 +11,14 @@ prep_perims <- function(perim){
 
 # Convert fire perimeters to points
 sf2df <- function(sf, years){
-  st_centroid(sf) %>%
+  sf %>%
+    filter(Year %in% years) %>%
+    st_centroid() %>%
     st_geometry() %>%
     do.call(rbind, .) %>%
     as.data.frame() %>%
     setNames(c("lon","lat")) %>%
-    bind_cols(st_set_geometry(sf, NULL))
+    bind_cols(st_set_geometry(sf, NULL)) %>%
+    add_row(Year = head(years + 0.5, -1))
 }
+

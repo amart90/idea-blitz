@@ -4,9 +4,14 @@ source("2_process/src/map_data.R")
 # Prepare data for map and chart animations
 p2_targets <- list(
   
+  # Define years as target (so they can be mapped for the map png branching)
+  tar_target(Years,
+             seq(years[1], years[2], by = 0.5)),
+  
+  
   # Build data for graphs
   tar_target(chart_data,
-             build_chart_data(years = 1984:2020, 
+             build_chart_data(years = Years, 
                               perim = perim_prepped, 
                               huc = huc)),
   
@@ -17,5 +22,5 @@ p2_targets <- list(
   # Build data for map
   tar_target(map_data,
              sf2df(sf = perim_prepped, 
-                   years = 1984:2020))
+                   years = Years))
 )
