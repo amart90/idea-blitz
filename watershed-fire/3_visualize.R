@@ -15,10 +15,10 @@ p3_targets <- list(
   
   # Build frames for map animation
   tar_target(map_animation_png,
-             build_map_png(basemap = basemap, fire_pts = map_data, year = Years,
+             build_map_png(basemap = basemap, fire_pts = map_data, year = Years_0.5,
                        col_fire = "#c94b10", col_bg = "#262626",
-                       file_out = sprintf("map_%s.png",Years)),
-             pattern = map(Years),
+                       file_out = sprintf("map_%s.png",Years_0.5)),
+             pattern = map(Years_0.5),
              format = "file")
 
   # Morph images into animation

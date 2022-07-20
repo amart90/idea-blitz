@@ -6,14 +6,17 @@ p2_targets <- list(
   
   # Define years as target (so they can be mapped for the map png branching)
   tar_target(Years,
-             seq(years[1], years[2], by = 0.5)),
+             seq(years[1], years[2])),
   
+  tar_target(Years_0.5,
+             seq(years[1], years[2], by = 0.5)),
   
   # Build data for graphs
   tar_target(chart_data,
              build_chart_data(years = Years, 
                               perim = perim_prepped, 
-                              huc = huc)),
+                              huc = huc),
+             pattern = map(Years)),
   
   # Prep fire perimeter data
   tar_target(perim_prepped,
