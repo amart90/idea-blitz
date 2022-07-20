@@ -32,6 +32,8 @@ p1 <- list(
                             crs = 9311)),
   
   # Load Forests 2 Faucets 2.0 data
+  # Can't figure out how to download directly from Box
+  # Data available from https://usfs-public.app.box.com/v/Forests2Faucets/file/938183618458
   tar_target(huc,
              get_huc(dsn = "1_fetch/in/F2F2_2019.gdb", layer = "F2F2_HUC12",
                      crs = 9311)),
