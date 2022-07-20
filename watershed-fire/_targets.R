@@ -51,12 +51,18 @@ p2 <- list(
   # Build data for graphs
   tar_target(chart_data,
              build_chart_data(years = 1984:2020, 
-                              perim = perim, 
+                              perim = perim_prepped, 
                               huc = huc)),
+  
+  # Prep fire perimeter data
+  tar_target(perim_prepped,
+             prep_perims(perim)
+    
+  ),
   
   # Build data for map
   tar_target(map_data,
-             sf2df(sf = perim, 
+             sf2df(sf = perim_prepped, 
                    years = 1984:2020))
 )
 
