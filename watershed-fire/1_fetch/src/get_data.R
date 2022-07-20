@@ -24,10 +24,14 @@ get_fire_perim <- function(url, perim_zip_path, perim_tmp_path, crs){
 # Get HUC water use assessment data
 # Can't figure out how to download directly from Box
 # Data available from https://usfs-public.app.box.com/v/Forests2Faucets/file/938183618458
-get_huc <- function(file_in, crs){
-  huc <- st_read(file_in) %>%
+get_huc <- function(file_in = NULL, dsn = NULL, layer = NULL, crs){
+  if(is.null(dsn) & is.null(layer)){
+    out <- st_read(file_in)
+  }else{
+    out <- st_read(dsn = "1_fetch/in/F2F2_2019.gdb", layer = "F2F2_HUC12")
+  }
+  out %>%
     st_transform(crs = crs)
-  return(huc)
 }
 
 # Get basemap tiles

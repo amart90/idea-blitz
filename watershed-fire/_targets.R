@@ -33,7 +33,7 @@ p1 <- list(
   
   # Load Forests 2 Faucets 2.0 data
   tar_target(huc,
-             get_huc(file_in = "1_fetch/in/F2F2_HUC12.shp",
+             get_huc(dsn = "1_fetch/in/F2F2_2019.gdb", layer = "F2F2_HUC12",
                      crs = 9311)),
   
   # Download basemap tiles
