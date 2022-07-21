@@ -11,14 +11,15 @@ prep_perims <- function(perim){
 
 # Convert fire perimeters to points
 sf2df <- function(sf, years){
-  sf %>%
-    filter(Year %in% years) %>%
+  out <- sf %>%
+    filter(Year %in% years)
+  out %>%
     st_centroid() %>%
     st_geometry() %>%
     do.call(rbind, .) %>%
     as.data.frame() %>%
     setNames(c("lon","lat")) %>%
-    bind_cols(st_set_geometry(sf, NULL)) %>%
-    add_row(Year = head(years + 0.5, -1))
+    bind_cols(st_set_geometry(out, NULL)) %>%
+    add_row(Year = years + 0.5)
 }
 

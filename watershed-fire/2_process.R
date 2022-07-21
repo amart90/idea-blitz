@@ -25,5 +25,6 @@ p2_targets <- list(
   # Build data for map
   tar_target(map_data,
              sf2df(sf = perim_prepped, 
-                   years = Years))
+                   years = Years),
+             pattern = map(Years))
 )
