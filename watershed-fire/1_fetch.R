@@ -15,13 +15,13 @@ p1_targets <- list(
   
   # To read a geodatabase, file_in = [path and name of geodatabase] and layer = [name of layer]
   # To read a shapefile, file_in = [path and name shapefile]
-  tar_target(huc,
+  tar_target(f2f2_huc12,
              get_huc(file_in = "1_fetch/in/F2F2_2019.gdb", layer = "F2F2_HUC12",
                      crs = 9311)),
   
   # Download basemap tiles
   tar_target(basemap,
-             get_basemap(file_in_for_extent = huc, 
+             get_basemap(file_in_for_extent = f2f2_huc12, 
                          file_out = "1_fetch/out/basemap.tif"),
              format = "file")
 )

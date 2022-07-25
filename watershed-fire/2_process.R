@@ -15,7 +15,7 @@ p2_targets <- list(
   tar_target(chart_data,
              build_chart_data(years = Years, 
                               perim = perim_prepped, 
-                              huc = huc),
+                              huc = f2f2_huc12),
              pattern = map(Years)),
   
   # Prep fire perimeter data
