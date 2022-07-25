@@ -6,10 +6,10 @@ p2_targets <- list(
   
   # Define years as target (so they can be mapped for the map png branching)
   tar_target(Years,
-             seq(years[1], years[2])),
+             seq(min(year_range), max(year_range), by = 1)),
   
   tar_target(Years_0.5,
-             seq(years[1], years[2], by = 0.5)),
+             seq(min(year_range), max(year_range), by = 0.5)),
   
   # Build data for graphs
   tar_target(chart_data,
