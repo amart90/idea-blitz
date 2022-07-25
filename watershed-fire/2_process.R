@@ -12,11 +12,16 @@ p2_targets <- list(
              seq(min(year_range), max(year_range), by = 0.5)),
   
   # Build data for graphs
-  tar_target(chart_data,
+  tar_target(chart_data_init,
              build_chart_data(years = Years, 
                               perim = perim_prepped, 
                               huc = f2f2_huc12),
              pattern = map(Years)),
+  
+  # Add interpolated data at the half year
+  tar_target(chart_data,
+             add_interp(data = chart_data_init,
+                        years = Years)),
   
   # Prep fire perimeter data
   tar_target(perim_prepped,
