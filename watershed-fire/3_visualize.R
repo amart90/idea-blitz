@@ -8,9 +8,10 @@ p3_targets <- list(
   
   # Build chart animation for graphs 
   tar_target(chart_animation_gif,
-             build_graph(chart_data = chart_data, 
-                         col_lines = c("#0abdc6", "#ea00d9"), 
-                         file_out = "3_visualize/out/chart_animation.gif"),
+             build_graph(chart_data = chart_data, year = Years_0.5,
+                         col_lines = c("#0abdc6", "#ea00d9"), col_bg = "#262626",
+                         file_out = sprintf("chart_%s.png", Years_0.5)),
+             pattern = map(Years_0.5),
              format = "file"),
   
   # Build frames for map animation

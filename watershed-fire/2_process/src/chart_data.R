@@ -34,7 +34,7 @@ build_chart_data <- function(years, perim, huc){
 # Interpolate data to add data at the year+0.5 mark
 add_interp <- function(data, years){
   data %>%
-    add_row(Year = rep(head(years, -1), each = 2),
+    add_row(Year = rep(head(years, -1)+0.5, each = 2),
             name = rep(.$name[1:2], times = length(years)-1),
             name_f = rep(.$name_f[1:2], times = length(years)-1)) %>%
     arrange(Year) %>%
