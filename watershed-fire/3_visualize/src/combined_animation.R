@@ -1,5 +1,9 @@
 # Build static map for given year
-build_map <- function(basemap, fire_pts, year, col_fire){
+build_map <- function(basemap, fire_pts, year, col_fire, font_year){
+  
+  showtext_opts(dpi = 300, regular.wt = 400, bold.wt = 800)
+  showtext_auto(enable = TRUE)
+  
   # Load basemap
   basemap <- rast(basemap)
   
@@ -56,12 +60,16 @@ build_map <- function(basemap, fire_pts, year, col_fire){
     # Print year text
     geom_text(aes(x= -Inf, y = -Inf, hjust = -0.5, vjust = -1.2,
                   label = ifelse(year %% 1 == 0, year, "")),
-              size = 10, color = "gray70", fontface = "bold")
+              size = 10, color = "gray70", family = font_year, fontface = "bold")
 }
 
 
 # Build static map for given year
-build_graph <- function(chart_data, col_lines, year){
+build_graph <- function(chart_data, col_lines, year, font_chart_titles, font_chart_axes){
+  
+  showtext_opts(dpi = 300, regular.wt = 400, bold.wt = 500)
+  showtext_auto(enable = TRUE)
+  
   # Filter fire points to given year
   chart_data_line <- chart_data 
   
@@ -80,31 +88,35 @@ build_graph <- function(chart_data, col_lines, year){
     facet_wrap(~ name_f, ncol = 1, scales = "free_y") +
     scale_color_manual(values = col_lines) +
     ylab(NULL) +
+    xlab(NULL) +
     theme(plot.background = element_rect(fill = "#262626", color = NA),
           panel.background = element_rect(fill = "#262626", color = NA),
           strip.background = element_blank(),
-          strip.text = element_text(color = "gray70", size = 10, face = "bold"),
+          strip.text = element_text(color = "gray70", size = 10, family = font_chart_titles, face = "bold"),
           strip.placement = "outside",
           panel.spacing = unit(1/8, "in", data = NULL),
           legend.position = "none",
           axis.title.x = element_text(color = "gray70", size = 10),
           panel.grid = element_line(color = "gray40"),
-          axis.text = element_text(color = "gray40"))
+          axis.text = element_text(color = "gray40", family = font_chart_axes, face = "plain"))
 }
 
-combine_plots <- function(chart_data, col_lines,
-                          basemap, fire_pts, col_fire,
+combine_plots <- function(chart_data, col_lines, font_chart_titles, font_chart_axes,
+                          basemap, fire_pts, col_fire, font_year, font_main_title,
                           year, col_bg, height, width, file_out){
   out_path <- sprintf("3_visualize/out/anim_frames/%s", file_out)
   
   plot_left <- build_map(basemap = basemap, fire_pts = fire_pts, year = year,
-                         col_fire = col_fire)
+                         col_fire = col_fire, font_year)
   
-  plot_right <- build_graph(chart_data = chart_data, year = year,
+  plot_right <- build_graph(chart_data = chart_data, 
+                            year = year,
+                            font_chart_titles = font_chart_titles, 
+                            font_chart_axes = font_chart_axes, 
                             col_lines = col_lines)
   
   plot_grid(plot_left, plot_right, nrow = 1)
-  
+
   # Export data
   ggsave(filename = out_path,
          bg = col_bg, height = height, width = width, units = "in", dpi = 300)

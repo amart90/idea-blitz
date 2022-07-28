@@ -1,10 +1,11 @@
 # Load packages required to define the pipeline
 library(targets)
+library(sysfonts)
 suppressPackageStartupMessages(library(tidyverse))
 
 # Set target options
 tar_option_set(
-  packages = c("rgeos", "rgdal", "tidyverse", "sf", "USAboundaries", "ggshadow", "ggnewscale", "terra", "tidyterra", "gganimate", "transformr", "maptiles", "magick", "cowplot"), # packages that your targets need to run
+  packages = c("rgeos", "rgdal", "tidyverse", "sf", "USAboundaries", "ggshadow", "ggnewscale", "terra", "tidyterra", "gganimate", "transformr", "maptiles", "magick", "cowplot", "sysfonts", "showtext"), # packages that your targets need to run
   format = "rds" # default storage format
 )
 options(tidyverse.quiet = TRUE)
@@ -20,6 +21,17 @@ sf::sf_use_s2(FALSE)
 crs <- 9311
 conus <- state.abb %>%
   subset(!. %in% c("AK", "HI"))
+
+# Define fonts
+font_main_title <- "Bungee Hairline"
+font_year <- "Turret Road"
+font_chart_titles <- "Turret Road"
+font_chart_axes <- "Turret Road"
+
+font_add_google(name = font_main_title)
+font_add_google(name = font_year)
+font_add_google(name = font_chart_titles)
+font_add_google(name = font_chart_axes)
 
 # Return list of targets
 c(p1_targets, p2_targets, p3_targets)
