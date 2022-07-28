@@ -5,7 +5,7 @@ suppressPackageStartupMessages(library(tidyverse))
 
 # Set target options
 tar_option_set(
-  packages = c("rgeos", "rgdal", "tidyverse", "sf", "USAboundaries", "ggshadow", "ggnewscale", "terra", "tidyterra", "gganimate", "transformr", "maptiles", "magick", "cowplot", "sysfonts", "showtext"), # packages that your targets need to run
+  packages = c("rgeos", "rgdal", "tidyverse", "sf", "ggshadow", "ggnewscale", "terra", "tidyterra", "maptiles", "magick", "cowplot", "sysfonts", "showtext"), # packages that your targets need to run
   format = "rds" # default storage format
 )
 options(tidyverse.quiet = TRUE)
