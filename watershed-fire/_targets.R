@@ -28,10 +28,8 @@ font_year <- "Turret Road"
 font_chart_titles <- "Turret Road"
 font_chart_axes <- "Turret Road"
 
-font_add_google(name = font_main_title)
-font_add_google(name = font_year)
-font_add_google(name = font_chart_titles)
-font_add_google(name = font_chart_axes)
+sapply(unique(c(font_main_title, font_year, font_chart_titles, font_chart_axes)), 
+       function(X) font_add_google(name = X))
 
 # Return list of targets
 c(p1_targets, p2_targets, p3_targets)
