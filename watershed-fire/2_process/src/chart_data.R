@@ -31,16 +31,34 @@ build_chart_data <- function(years, perim, huc){
                                             "Consumers of water from affected watersheds (millions of people)")))
 }
 
-# Interpolate data to add data at the year+0.5 mark
-add_interp <- function(data, years){
+# Generic linear interpolation function that returns intermediate values between given values
+# "factor" parameter is how much to interpolate (factor = 10 will return 9 intermediate values)
+linear_interpolation <- function(from, to, factor){
+  seq(from = from, to = to, length.out = factor+1) %>%
+    head(-1) %>%
+    tail(-1)
+}
+
+# Expand vector by interpolating values between input values in given vector, returning intermediate values
+interpolate <- function(data, factor) {
+  if(!is.null(ncol(data))) data <- pull(data)
+  map2(
+    head(data, -1),
+    tail(data, -1),
+    linear_interpolation,
+    factor = factor) %>%
+    unlist()
+}
+
+# Add rows to expand data frame with interpolated years and values
+add_interpolation <- function(data, factor){
   data %>%
-    add_row(Year = rep(head(years, -1)+0.5, each = 2),
-            name = rep(.$name[1:2], times = length(years)-1),
-            name_f = rep(.$name_f[1:2], times = length(years)-1)) %>%
-    arrange(Year) %>%
-    mutate(Prev = lag(value, order_by = name),
-           Next = lead(value, order_by = name)) %>%
-    rowwise() %>%
-    mutate(y = ifelse(is.na(value), (mean(c(Prev, Next), na.rm = T)), value)) %>%
-    select(-c(Prev, Next))
+    arrange(name) %>%
+    add_row(value = split(., .$name) %>%
+              map(~interpolate(.$value, factor = factor)) %>%
+              unlist(),
+            Year = rep(interpolate(unique(.$Year), factor = factor), times = 2),
+            name = rep(unique(.$name), each = (nrow(.)/2-1) * (factor-1)),
+            name_f = rep(unique(.$name), each = (nrow(.)/2-1) * (factor-1))) %>%
+    arrange(name, Year)
 }

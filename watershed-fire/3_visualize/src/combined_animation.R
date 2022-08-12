@@ -11,7 +11,7 @@ build_map <- function(basemap, fire_pts, year, col_fire, font_year){
   fire_pts_year <- fire_pts %>%
     filter(Year == year)
   
-  # Fiter fire points to all years prior to given year
+  # Filter fire points to all years prior to given year
   fire_pts_past <- fire_pts %>%
     filter(Year < year)
   
@@ -59,7 +59,8 @@ build_map <- function(basemap, fire_pts, year, col_fire, font_year){
     
     # Print year text
     geom_text(aes(x= -Inf, y = -Inf, hjust = -0.5, vjust = -1.2,
-                  label = ifelse(year %% 1 == 0, year, "")),
+                  #label = ifelse(year %% 1 == 0, year, "")),
+                  label = floor(year)),
               size = 10, color = "gray70", family = font_year, fontface = "bold")
 }
 
@@ -79,10 +80,10 @@ build_graph <- function(chart_data, col_lines, year, font_chart_titles, font_cha
   # Build charts
   ggplot() +
     # Plot line graph
-    geom_glowline(data = chart_data, aes(x = Year, y = y, color = name)) +
+    geom_glowline(data = chart_data, aes(x = Year, y = value, color = name)) +
     # Plot points with alternated Year column (so entire lines are static and only point moves)
     geom_glowpoint(data = chart_data_point, 
-                   aes(x = Year, y = y, color = name), size = 2) +
+                   aes(x = Year, y = value, color = name), size = 2) +
     
     # Styling
     facet_wrap(~ name_f, ncol = 1, scales = "free_y") +
@@ -122,4 +123,31 @@ combine_plots <- function(chart_data, col_lines, font_chart_titles, font_chart_a
          bg = col_bg, height = height, width = width, units = "in", dpi = 300)
   
   return(out_path)
+}
+
+animate_plots <- function(in_frames, out_file, inter_frames, reduce = TRUE, frame_delay_cs, frame_rate){
+  in_frames %>%
+    image_read() %>%
+    image_join() %>%
+    image_morph(frames = inter_frames) %>%
+    image_animate(
+      delay = frame_delay_cs,
+      optimize = TRUE,
+      fps = frame_rate
+    ) %>%
+    image_write(out_file)
+  
+  if(reduce == TRUE){
+    optimize_gif(out_file, frame_delay_cs)
+  }
+}
+
+optimize_gif <- function(out_file, frame_delay_cs) {
+  
+  # simplify the gif with gifsicle - cuts size by about 2/3
+  gifsicle_command <- sprintf('gifsicle -b -O3 -d %s --colors 256 %s',
+                              frame_delay_cs, out_file)
+  system(gifsicle_command)
+  
+  return(out_file)
 }

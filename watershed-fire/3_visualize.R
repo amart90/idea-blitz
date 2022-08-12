@@ -12,10 +12,20 @@ p3_targets <- list(
              combine_plots(chart_data = chart_data, col_lines = c("#0abdc6", "#ea00d9"), 
                            font_chart_titles = font_chart_titles, font_chart_axes = font_chart_axes,
                            basemap = basemap, fire_pts = map_data, col_fire = "#c94b10", font_year = font_year,
-                           year = Years_0.5, col_bg = "#262626", height = 5, width = 12, 
+                           year = Years_expanded, col_bg = "#262626", height = 5, width = 12, 
                            font_main_title = font_main_title,
-                           file_out =  sprintf("animation_test_%s.png",Years_0.5)),
-             pattern = map(Years_0.5),
+                           file_out =  sprintf("animation_%s.png",Years_expanded)),
+             pattern = map(Years_expanded),
+             format = "file"),
+  
+  # Animate plots
+  tar_target(watershed_fire_gif,
+             animate_plots(in_frames = combined_plots, 
+                           out_file = "3_visualize/out/watershed_fire_3.gif",
+                           inter_frames = 2,
+                           reduce = TRUE, 
+                           frame_delay_cs = 10, 
+                           frame_rate = 60),
              format = "file")
 
   # Morph images into animation

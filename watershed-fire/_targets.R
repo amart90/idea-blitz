@@ -21,6 +21,7 @@ sf::sf_use_s2(FALSE)
 crs <- 9311
 conus <- state.abb %>%
   subset(!. %in% c("AK", "HI"))
+interpolation_factor = 4
 
 # Define fonts
 font_main_title <- "Bungee Hairline"
