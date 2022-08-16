@@ -1,4 +1,13 @@
-# Build static map for given year
+#' Plot map
+#' 
+#' Plot static map for given year (single frame in animation).
+#' 
+#' @param basemap Basemap raster.
+#' @param fire_pts Fire occurrence points.
+#' @param year Year of fire occurences to plot.
+#' @param col_fire Color of the fire points.
+#' @param font_year Font name for the printed year.
+#' 
 build_map <- function(basemap, fire_pts, year, col_fire, font_year){
   
   showtext_opts(dpi = 300, regular.wt = 400, bold.wt = 800)
@@ -66,7 +75,16 @@ build_map <- function(basemap, fire_pts, year, col_fire, font_year){
 }
 
 
-# Build static map for given year
+#' Plot chart
+#' 
+#' Plot static graph for given year
+#' 
+#' @param chart_data Vata frame for the chart data.
+#' @param col_lines Vector (length = 2) of colors for the graph lines.
+#' @param year Year to highlight in chart.
+#' @param font_chart_titles Font name for the chart titles (facet strip text)
+#' @param font_chart_axes Font name for axis lables
+#' 
 build_graph <- function(chart_data, col_lines, year, font_chart_titles, font_chart_axes){
   
   showtext_opts(dpi = 300, regular.wt = 400, bold.wt = 500)
@@ -103,9 +121,30 @@ build_graph <- function(chart_data, col_lines, year, font_chart_titles, font_cha
           axis.text = element_text(color = "gray40", family = font_chart_axes, face = "plain"))
 }
 
+#' Combine plots
+#' 
+#' Combine static map and static chart for given year to create single animation
+#' frame.
+#' 
+#' @param chart_data Vata frame for the chart data.
+#' @param col_lines Vector (length = 2) of colors for the graph lines.
+#' @param font_chart_titles Font name for the chart titles (facet strip text)
+#' @param font_chart_axes Font name for axis lables
+#' @param basemap Basemap raster.
+#' @param fire_pts Fire occurrence points.
+#' @param col_fire Color of the fire points.
+#' @param font_year Font name for the printed year.
+#' 
+#' @param font_main_title Font name for the main title.
+#' @param year Year from which to plot data.
+#' @param col_bg Color of the image background.
+#' @param height Height of the image in inches.
+#' @param width Width of the image in inches.
+#' @param file_out The output filename with extension.
+#' 
 combine_plots <- function(chart_data, col_lines, font_chart_titles, font_chart_axes,
-                          basemap, fire_pts, col_fire, font_year, font_main_title,
-                          year, col_bg, height, width, file_out){
+                          basemap, fire_pts, col_fire, font_year, 
+                          font_main_title, year, col_bg, height, width, file_out){
   out_path <- sprintf("3_visualize/out/anim_frames/%s", file_out)
   
   plot_left <- build_map(basemap = basemap, fire_pts = fire_pts, year = year,
@@ -126,6 +165,18 @@ combine_plots <- function(chart_data, col_lines, font_chart_titles, font_chart_a
   return(out_path)
 }
 
+#' Animate frames into a gif
+#' 
+#' Using input frames, animate into a gif, interpolating as necessary.
+#' 
+#' @param in_frames Filepaths to frames to animate.
+#' @param out_file File path, name, and extension of animated gif.
+#' @param inter_frames Number of interpolated frames between frames.
+#' @param reduce Reduce file size by using only 256 colors. Must have gifsicle 
+#'   installed (can be installed with NodeJs (https://www.npmjs.com/package/gifsicle).
+#' @param frame_delay_cs Delay after each frame in 1/100 seconds.
+#' @param frame_rate Frames per second.
+#' 
 animate_plots <- function(in_frames, out_file, inter_frames, reduce = TRUE, frame_delay_cs, frame_rate){
   in_frames %>%
     image_read() %>%
