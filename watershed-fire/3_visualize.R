@@ -21,7 +21,7 @@ p3_targets <- list(
   # Animate plots
   tar_target(watershed_fire_gif,
              animate_plots(in_frames = combined_plots, 
-                           out_file = "3_visualize/out/watershed_fire_3.gif",
+                           out_file = "3_visualize/out/watershed_fire.gif",
                            inter_frames = 2,
                            reduce = TRUE, 
                            frame_delay_cs = 10, 

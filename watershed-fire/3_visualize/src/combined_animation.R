@@ -9,7 +9,8 @@ build_map <- function(basemap, fire_pts, year, col_fire, font_year){
   
   # Filter fire points to given year
   fire_pts_year <- fire_pts %>%
-    filter(Year == year)
+    #filter(Year == year)
+    filter(Year == ifelse(year %% 1 < 0.75, year %/% 1, year %/% 1 + 0.5))
   
   # Filter fire points to all years prior to given year
   fire_pts_past <- fire_pts %>%

@@ -1,4 +1,13 @@
-# Get data points for graph for a given year
+#' Get data points for graph for a given year
+#' 
+#' Intersect fire perimeters for a given year with the water use data and 
+#' compute the (1) proportion of water use watersheds affected by fire and (2) 
+#' the total downstream population that use water from the affected watersheds.
+#' 
+#' @param perim Fire perimeter dataset.
+#' @param huc Water use by HUC dataset.
+#' @param year The year given to summarize within.
+#' 
 data_by_year <- function(perim, huc, year){
   # Filter fire perim by year
   perim_year <- perim %>%
@@ -20,7 +29,15 @@ data_by_year <- function(perim, huc, year){
   return(out)
 }
 
-# Get data points for all years specified and prep for graphing
+#' Get chart data for all years
+#' 
+#' Get data points for all years specified and prep for graphing.
+#' 
+#' @param years Numeric vector of years to be included (vector must be a target 
+#'   to be dynamically branched)
+#' @param perim Fire perimeter dataset.
+#' @param huc Water use by HUC dataset.
+#' 
 build_chart_data <- function(years, perim, huc){
   lapply(years, FUN = function(X) data_by_year(perim, huc, X)) %>%
     bind_rows() %>%
@@ -31,15 +48,37 @@ build_chart_data <- function(years, perim, huc){
                                             "Consumers of water from affected watersheds (millions of people)")))
 }
 
-# Generic linear interpolation function that returns intermediate values between given values
-# "factor" parameter is how much to interpolate (factor = 10 will return 9 intermediate values)
+#' Linear interpolation
+#' 
+#' Generic linear interpolation function that returns intermediate values 
+#' between given values "factor" parameter is how much to interpolate 
+#' (factor = 10 will return 9 intermediate values at 1/10th intervals).
+#' 
+#' @param from The lower value to be interpolated between.
+#' @param to The upper value to be interpolated between.
+#' @param factor The step at which to interpolate.
+#' 
+#' @examples 
+#' linear_interpolation(from = 1, to = 2, factor = 4)
+#' # 1.25  1.50  1.75
+#' 
 linear_interpolation <- function(from, to, factor){
   seq(from = from, to = to, length.out = factor+1) %>%
     head(-1) %>%
     tail(-1)
 }
 
-# Expand vector by interpolating values between input values in given vector, returning intermediate values
+#' Expand vector through linear interpolation
+#' 
+#' Expand vector by interpolating values between input values in given vector, 
+#' returning intermediate values.
+#' 
+#' @param data A numeric vector of values to interpolate between.
+#' @param factor The step at which to interpolate.
+#' 
+#' @seealso 
+#' linear_interpolation
+#' 
 interpolate <- function(data, factor) {
   if(!is.null(ncol(data))) data <- pull(data)
   map2(
@@ -50,7 +89,16 @@ interpolate <- function(data, factor) {
     unlist()
 }
 
-# Add rows to expand data frame with interpolated years and values
+#' Add rows to expand data frame
+#' 
+#' Add rows to expand data frame for graph with interpolated years and values.
+#' 
+#' @param data The chart data to be expanded by interpolation.
+#' @param factor The step at which to interpolate.
+#' 
+#' @seealso 
+#' interpolate 
+#' linear_interpolation
 add_interpolation <- function(data, factor){
   data %>%
     arrange(name) %>%

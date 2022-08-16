@@ -5,7 +5,19 @@ suppressPackageStartupMessages(library(tidyverse))
 
 # Set target options
 tar_option_set(
-  packages = c("rgeos", "rgdal", "tidyverse", "sf", "ggshadow", "ggnewscale", "terra", "tidyterra", "maptiles", "magick", "cowplot", "sysfonts", "showtext"), # packages that your targets need to run
+  packages = c("rgeos", 
+               "rgdal", 
+               "tidyverse", 
+               "sf", 
+               "ggshadow", 
+               "ggnewscale", 
+               "terra", 
+               "tidyterra", 
+               "maptiles", 
+               "magick", 
+               "cowplot", 
+               "sysfonts", 
+               "showtext"), 
   format = "rds" # default storage format
 )
 options(tidyverse.quiet = TRUE)
@@ -17,18 +29,17 @@ source("3_visualize.R")
 
 # Define parameters
 year_range <- c(1984, 2020)
-sf::sf_use_s2(FALSE)
+sf::sf_use_s2(FALSE) # Turn off sperical geometry
 crs <- 9311
 conus <- state.abb %>%
   subset(!. %in% c("AK", "HI"))
-interpolation_factor = 4
+interpolation_factor = 4 # Data at the 1/4 year
 
-# Define fonts
+# Define and add fonts
 font_main_title <- "Bungee Hairline"
 font_year <- "Turret Road"
 font_chart_titles <- "Turret Road"
 font_chart_axes <- "Turret Road"
-
 sapply(unique(c(font_main_title, font_year, font_chart_titles, font_chart_axes)), 
        function(X) font_add_google(name = X))
 
