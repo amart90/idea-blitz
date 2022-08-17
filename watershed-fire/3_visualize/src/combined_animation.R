@@ -180,14 +180,14 @@ combine_plots <- function(chart_data, col_lines, font_chart_titles, font_chart_a
 animate_plots <- function(in_frames, out_file, inter_frames, reduce = TRUE, frame_delay_cs, frame_rate){
   in_frames %>%
     image_read() %>%
+    image_resize("65x65%") %>%
     image_join() %>%
     image_morph(frames = inter_frames) %>%
     image_animate(
       delay = frame_delay_cs,
       optimize = TRUE,
       fps = frame_rate
-    ) %>%
-    image_resize("65x65%") %>%
+    )%>%
     image_write(out_file)
   
   if(reduce == TRUE){
