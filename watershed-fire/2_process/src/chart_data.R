@@ -9,6 +9,10 @@
 #' @param year The year given to summarize within.
 #' 
 data_by_year <- function(perim, huc, year){
+  # Set attributes to constant over geometry (to prevent warnings)
+  st_agr(perim) <- "constant"
+  st_agr(huc) <- "constant"
+  
   # Filter fire perim by year
   perim_year <- perim %>%
     filter(Year == year)
