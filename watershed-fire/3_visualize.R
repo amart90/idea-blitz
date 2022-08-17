@@ -1,5 +1,3 @@
-#source("3_visualize/src/chart_animation.R")
-#source("3_visualize/src/map_animation.R")
 source("3_visualize/src/combined_animation.R")
 
 # Create animations which include:
@@ -12,7 +10,7 @@ p3_targets <- list(
              combine_plots(chart_data = chart_data, col_lines = c("#0abdc6", "#ea00d9"), 
                            font_chart_titles = font_chart_titles, font_chart_axes = font_chart_axes,
                            basemap = basemap, fire_pts = map_data, col_fire = "#c94b10", font_year = font_year,
-                           year = Years_expanded, col_bg = "#262626", height = 5, width = 12, 
+                           year = Years_expanded, col_bg = "#262626", height = 2, width = 5.5, 
                            font_main_title = font_main_title,
                            file_out =  sprintf("animation_%s.png",Years_expanded)),
              pattern = map(Years_expanded),
@@ -27,8 +25,4 @@ p3_targets <- list(
                            frame_delay_cs = 10, 
                            frame_rate = 60),
              format = "file")
-
-  # Morph images into animation
-  
-  # Use image_append(c(map_animation_gif, chart_animation_gif)) to stitch gifs together
 )

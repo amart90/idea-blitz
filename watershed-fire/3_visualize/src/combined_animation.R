@@ -39,7 +39,7 @@ build_map <- function(basemap, fire_pts, year, col_fire, font_year){
                    shadowalpha = .05,
                    #stat = "sf_coordinates",
                    show.legend = FALSE) +
-    scale_size(range = c(.1, 1)) +
+    scale_size(range = c(.08, 0.8)) +
     new_scale("size") +
     
     # Plot glowpoints for current year
@@ -52,7 +52,7 @@ build_map <- function(basemap, fire_pts, year, col_fire, font_year){
                    shadowalpha = .1,
                    #stat = "sf_coordinates",
                    show.legend = FALSE) +
-    scale_size(range = c(.1, 1.5)) +
+    scale_size(range = c(.1, 1)) +
     new_scale("size") +
     geom_glowpoint(data = fire_pts_year,
                    #aes(geometry = geometry, size = GIS_ACRES),
@@ -71,7 +71,7 @@ build_map <- function(basemap, fire_pts, year, col_fire, font_year){
     geom_text(aes(x= -Inf, y = -Inf, hjust = -0.5, vjust = -1.2,
                   #label = ifelse(year %% 1 == 0, year, "")),
                   label = floor(year)),
-              size = 10, color = "gray70", family = font_year, fontface = "bold")
+              size = 6, color = "gray70", family = font_year, fontface = "bold")
 }
 
 
@@ -102,7 +102,7 @@ build_graph <- function(chart_data, col_lines, year, font_chart_titles, font_cha
     geom_glowline(data = chart_data, aes(x = Year, y = value, color = name)) +
     # Plot points with alternated Year column (so entire lines are static and only point moves)
     geom_glowpoint(data = chart_data_point, 
-                   aes(x = Year, y = value, color = name), size = 2) +
+                   aes(x = Year, y = value, color = name), size = 1) +
     
     # Styling
     facet_wrap(~ name_f, ncol = 1, scales = "free_y") +
@@ -112,13 +112,13 @@ build_graph <- function(chart_data, col_lines, year, font_chart_titles, font_cha
     theme(plot.background = element_rect(fill = "#262626", color = NA),
           panel.background = element_rect(fill = "#262626", color = NA),
           strip.background = element_blank(),
-          strip.text = element_text(color = "gray70", size = 10, family = font_chart_titles, face = "bold"),
+          strip.text = element_text(color = "gray70", size = 5, family = font_chart_titles, face = "bold"),
           strip.placement = "outside",
           panel.spacing = unit(1/8, "in", data = NULL),
           legend.position = "none",
-          axis.title.x = element_text(color = "gray70", size = 10),
+          axis.title.x = element_text(color = "gray70"),
           panel.grid = element_line(color = "gray40"),
-          axis.text = element_text(color = "gray40", family = font_chart_axes, face = "plain"))
+          axis.text = element_text(color = "gray40", family = font_chart_axes, face = "plain", size = 5))
 }
 
 #' Combine plots
