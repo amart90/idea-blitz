@@ -65,13 +65,7 @@ build_map <- function(basemap, fire_pts, year, col_fire, font_year){
     scale_size(range = c(.01, .2)) +
     
     # Styling
-    theme_void() +
-    
-    # Print year text
-    geom_text(aes(x= -Inf, y = -Inf, hjust = -0.5, vjust = -1.2,
-                  #label = ifelse(year %% 1 == 0, year, "")),
-                  label = floor(year)),
-              size = 6, color = "gray70", family = font_year, fontface = "bold")
+    theme_void() 
 }
 
 
@@ -126,7 +120,7 @@ build_graph <- function(chart_data, col_lines, year, font_chart_titles, font_cha
 #' Combine static map and static chart for given year to create single animation
 #' frame.
 #' 
-#' @param chart_data Vata frame for the chart data.
+#' @param chart_data Data frame for the chart data.
 #' @param col_lines Vector (length = 2) of colors for the graph lines.
 #' @param font_chart_titles Font name for the chart titles (facet strip text)
 #' @param font_chart_axes Font name for axis lables
@@ -156,7 +150,12 @@ combine_plots <- function(chart_data, col_lines, font_chart_titles, font_chart_a
                             font_chart_axes = font_chart_axes, 
                             col_lines = col_lines)
   
-  plot_grid(plot_left, plot_right, nrow = 1)
+  # Combine plots
+  plot_grid(plot_left, plot_right, nrow = 1) + 
+    
+    # Add year
+    draw_label(label = floor(year), x = 0.03, y = 0.1, hjust = 0,
+               size = 20, color = "gray70", fontfamily = font_year, fontface = "bold")
 
   # Export data
   ggsave(filename = out_path,
