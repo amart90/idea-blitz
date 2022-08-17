@@ -10,6 +10,7 @@
 #' 
 build_map <- function(basemap, fire_pts, year, col_fire, font_year){
   
+  # Prep fonts
   showtext_opts(dpi = 300, regular.wt = 400, bold.wt = 800)
   showtext_auto(enable = TRUE)
   
@@ -25,6 +26,7 @@ build_map <- function(basemap, fire_pts, year, col_fire, font_year){
   fire_pts_past <- fire_pts %>%
     filter(Year < year)
   
+  # Plotting
   ggplot()+
     # Plot basemap
     geom_spatraster_rgb(data = basemap) +
@@ -81,6 +83,7 @@ build_map <- function(basemap, fire_pts, year, col_fire, font_year){
 #' 
 build_graph <- function(chart_data, col_lines, year, font_chart_titles, font_chart_axes){
   
+  # Prep fonts
   showtext_opts(dpi = 300, regular.wt = 400, bold.wt = 500)
   showtext_auto(enable = TRUE)
   
@@ -90,7 +93,7 @@ build_graph <- function(chart_data, col_lines, year, font_chart_titles, font_cha
   chart_data_point <- chart_data %>%
     filter(Year == year)
   
-  # Build charts
+  # Plotting
   ggplot() +
     # Plot line graph
     geom_glowline(data = chart_data, aes(x = Year, y = value, color = name), size = 0.4) +
@@ -139,11 +142,12 @@ build_graph <- function(chart_data, col_lines, year, font_chart_titles, font_cha
 combine_plots <- function(chart_data, col_lines, font_chart_titles, font_chart_axes,
                           basemap, fire_pts, col_fire, font_year, 
                           font_main_title, year, col_bg, height, width, file_out){
+  # Build output path
   out_path <- sprintf("3_visualize/out/anim_frames/%s", file_out)
   
+  # Plot constituent plots 
   plot_left <- build_map(basemap = basemap, fire_pts = fire_pts, year = year,
                          col_fire = col_fire, font_year)
-  
   plot_right <- build_graph(chart_data = chart_data, 
                             year = year,
                             font_chart_titles = font_chart_titles, 
