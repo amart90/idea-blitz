@@ -39,7 +39,7 @@ build_map <- function(basemap, fire_pts, year, col_fire, font_year){
                    shadowalpha = .05,
                    #stat = "sf_coordinates",
                    show.legend = FALSE) +
-    scale_size(range = c(.08, 0.8)) +
+    scale_size(range = c(.05, 0.5)) +
     new_scale("size") +
     
     # Plot glowpoints for current year
@@ -52,7 +52,7 @@ build_map <- function(basemap, fire_pts, year, col_fire, font_year){
                    shadowalpha = .1,
                    #stat = "sf_coordinates",
                    show.legend = FALSE) +
-    scale_size(range = c(.1, 1)) +
+    scale_size(range = c(.08, 0.6)) +
     new_scale("size") +
     geom_glowpoint(data = fire_pts_year,
                    #aes(geometry = geometry, size = GIS_ACRES),
@@ -62,7 +62,7 @@ build_map <- function(basemap, fire_pts, year, col_fire, font_year){
                    color = "#ffffff",
                    #stat = "sf_coordinates",
                    show.legend = FALSE) +
-    scale_size(range = c(.01, .7)) +
+    scale_size(range = c(.01, .2)) +
     
     # Styling
     theme_void() +
@@ -99,7 +99,7 @@ build_graph <- function(chart_data, col_lines, year, font_chart_titles, font_cha
   # Build charts
   ggplot() +
     # Plot line graph
-    geom_glowline(data = chart_data, aes(x = Year, y = value, color = name)) +
+    geom_glowline(data = chart_data, aes(x = Year, y = value, color = name), size = 0.4) +
     # Plot points with alternated Year column (so entire lines are static and only point moves)
     geom_glowpoint(data = chart_data_point, 
                    aes(x = Year, y = value, color = name), size = 1) +
@@ -187,6 +187,7 @@ animate_plots <- function(in_frames, out_file, inter_frames, reduce = TRUE, fram
       optimize = TRUE,
       fps = frame_rate
     ) %>%
+    image_resize("65x65%") %>%
     image_write(out_file)
   
   if(reduce == TRUE){
