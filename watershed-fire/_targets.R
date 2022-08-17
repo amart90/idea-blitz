@@ -29,11 +29,11 @@ source("3_visualize.R")
 
 # Define parameters
 year_range <- c(1984, 2020)
-sf::sf_use_s2(FALSE) # Turn off sperical geometry
+sf::sf_use_s2(FALSE) # Turn off spherical geometry
 crs <- 9311
 conus <- state.abb %>%
   subset(!. %in% c("AK", "HI"))
-interpolation_factor = 4 # Data at the 1/4 year
+interpolation_factor = 4 # Data at the 1/4 year time step
 
 # Define and add fonts
 font_main_title <- "Bungee Hairline"
