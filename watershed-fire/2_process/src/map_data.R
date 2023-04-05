@@ -40,5 +40,8 @@ sf2df <- function(sf, years) {
     as.data.frame() %>%
     setNames(c("lon", "lat")) %>%
     bind_cols(st_set_geometry(out, NULL)) %>%
-    add_row(Year = years + 0.5)
+    mutate(
+      month = as.numeric(format(Ig_Date, "%m")),
+      Year = Year + month/12
+    )
 }

@@ -24,12 +24,12 @@ p2_targets <- list(
     pattern = map(Years)
   ),
 
-  # Add interpolated data at the half year
+  # Add interpolated data at the month
   tar_target(
     chart_data,
     add_interpolation(
       data = chart_data_init,
-      factor = 4
+      factor = interpolation_factor
     )
   ),
 

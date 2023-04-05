@@ -35,7 +35,7 @@ sf::sf_use_s2(FALSE) # Turn off spherical geometry
 crs <- 9311
 conus <- state.abb %>%
   subset(!. %in% c("AK", "HI"))
-interpolation_factor <- 4 # Data at the 1/4 year time step
+interpolation_factor <- 12 # Data at the monthly
 
 # Define and add fonts
 font_main_title <- "Bungee Hairline"
@@ -46,6 +46,7 @@ sapply(
   unique(c(font_main_title, font_year, font_chart_titles, font_chart_axes)),
   function(x) font_add_google(name = x)
 )
+font_add_google(name = c(font_main_title, font_year, font_chart_titles, font_chart_axes))
 
 # Return list of targets
 c(p1_targets, p2_targets, p3_targets)
