@@ -7,7 +7,9 @@
 prep_perims <- function(perim) {
   perim %>%
     mutate(
-      Year = as.numeric(str_sub(Ig_Date, start = 1L, end = 4L)),
+      Year = as.numeric(format(Ig_Date, "%Y")),
+      Month = as.numeric(format(Ig_Date, "%m")),
+      Year_month = Year + (Month - 1) /12,
       State = str_sub(Event_ID, start = 1L, end = 2L)
     ) %>%
     filter(
@@ -16,7 +18,7 @@ prep_perims <- function(perim) {
     ) %>%
     select(
       Event_ID, Incid_Name, Ig_Date, Year, State, Incid_Type, BurnBndAc,
-      BurnBndLat, BurnBndLon
+      BurnBndLat, BurnBndLon, Year_month
     )
 }
 
@@ -39,9 +41,5 @@ sf2df <- function(sf, years) {
     do.call(rbind, .) %>%
     as.data.frame() %>%
     setNames(c("lon", "lat")) %>%
-    bind_cols(st_set_geometry(out, NULL)) %>%
-    mutate(
-      month = as.numeric(format(Ig_Date, "%m")),
-      Year = Year + month/12
-    )
+    bind_cols(st_set_geometry(out, NULL))
 }

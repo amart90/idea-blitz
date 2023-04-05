@@ -16,13 +16,13 @@ p3_targets <- list(
       basemap = basemap,
       fire_pts = map_data,
       col_fire = "#c94b10",
-      font_year = font_year,
+      #font_year = font_year,
       year = Years_expanded,
       col_bg = "#262626",
       height = 2,
       width = 5.5,
       font_main_title = font_main_title,
-      file_out = sprintf("animation_%s.png", Years_expanded)
+      file_out = sprintf("animation_%.3f.png", Years_expanded)
     ),
     pattern = map(Years_expanded),
     format = "file"
@@ -33,10 +33,14 @@ p3_targets <- list(
     animate_plots(
       in_frames = combined_plots,
       out_file = "3_visualize/out/watershed_fire.gif",
-      inter_frames = 2,
+      labels = floor(Years_expanded),
+      inter_frames = 1,
       reduce = TRUE,
-      frame_delay_cs = 10,
-      frame_rate = 60
+      frame_delay_cs = 05,
+      frame_rate = 60,
+      fade_col = "#262626",
+      font_year = font_year,
+      year_col = "gray70"
     ),
     format = "file"
   )
