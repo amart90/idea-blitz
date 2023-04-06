@@ -104,15 +104,17 @@ build_graph <- function(chart_data, col_lines, year, font_chart_titles,
       data = chart_data, aes(x = Year, y = value, color = name),
       size = 0.4
     ) +
+    scale_color_manual(values = col_lines) +
+    new_scale_color() +
     # Plot points with alternated Year column
     # (so entire lines are static and only point moves)
     geom_glowpoint(
       data = chart_data_point,
-      aes(x = Year, y = value, color = name), size = 1
+      aes(x = Year, y = value, color = name), size = 0.2
     ) +
 
     # Styling
-    scale_color_manual(values = col_lines) +
+    scale_color_manual(values = lighten(col_lines, 0.8)) +
     ylab(NULL) +
     xlab(NULL) +
     theme(

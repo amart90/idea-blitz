@@ -18,7 +18,8 @@ tar_option_set(
     "magick",
     "cowplot",
     "sysfonts",
-    "showtext"
+    "showtext",
+    "colorspace"
   ),
   format = "rds" # default storage format
 )

@@ -38,9 +38,7 @@ p3_targets <- list(
       reduce = TRUE,
       frame_delay_cs = 05,
       frame_rate = 60,
-      fade_col = "#262626",
-      font_year = font_year,
-      year_col = "gray70"
+      fade_col = "#262626"
     ),
     format = "file"
   )
