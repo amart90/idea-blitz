@@ -10,7 +10,7 @@ p3_targets <- list(
   tar_target(combined_plots,
     combine_plots(
       chart_data = chart_data,
-      col_lines = c("#0abdc6", "#ea00d9"),
+      col_lines = c("#0abdc6"),
       font_chart_titles = font_chart_titles,
       font_chart_axes = font_chart_axes,
       basemap = basemap,
@@ -19,7 +19,7 @@ p3_targets <- list(
       font_year = font_year,
       year = Years_expanded,
       col_bg = "#262626",
-      height = 4,
+      height = 3,
       width = 3,
       font_main_title = font_main_title,
       file_out = sprintf("animation_%.3f.png", Years_expanded)

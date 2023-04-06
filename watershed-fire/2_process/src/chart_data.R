@@ -27,8 +27,6 @@ data_by_year <- function(perim, huc, year) {
 
   out <- data.frame(
     Year = year,
-    Mean_ws_prop_affected_pc = mean(huc_intersection$prop_burned) %>%
-      as.numeric() * 100,
     Population_affected_mil = sum(huc_intersection$SUM_POP) / 1000000
   )
 
@@ -45,19 +43,17 @@ data_by_year <- function(perim, huc, year) {
 #' @param huc Water use by HUC dataset.
 #'
 build_chart_data <- function(years, perim, huc) {
+  # map(
+  #   years,
+  #   ~ data_by_year(perim, huc, .x)
+  # )
   lapply(years, FUN = function(x) data_by_year(perim, huc, x)) %>%
     bind_rows() %>%
     pivot_longer(-one_of("Year")) %>%
     mutate(name = recode(name,
-      "Mean_ws_prop_affected_pc" =
-        "Proportion of US water supply watersheds affected by wildfire (%)",
       "Population_affected_mil" =
-        "Consumers of water from affected watersheds (millions of people)"
-    )) %>%
-    mutate(name_f = factor(name, levels = c(
-      "Proportion of US water supply watersheds affected by wildfire (%)",
-      "Consumers of water from affected watersheds (millions of people)"
-    )))
+        "Millions of consumers of water from affected watersheds (millions of people)"
+    ))
 }
 
 #' Linear interpolation
@@ -119,9 +115,8 @@ add_interpolation <- function(data, factor) {
       value = split(., .$name) %>%
         map(~ interpolate(.$value, factor = factor)) %>%
         unlist(),
-      Year = rep(interpolate(unique(.$Year), factor = factor), times = 2),
-      name = rep(unique(.$name), each = (nrow(.) / 2 - 1) * (factor - 1)),
-      name_f = rep(unique(.$name), each = (nrow(.) / 2 - 1) * (factor - 1))
+      Year = interpolate(unique(.$Year), factor = factor),
+      name = rep(.$name[1], (nrow(.) - 1) * (factor - 1))
     ) %>%
     arrange(name, Year)
 }

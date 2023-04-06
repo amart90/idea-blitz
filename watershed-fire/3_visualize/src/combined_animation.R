@@ -112,7 +112,6 @@ build_graph <- function(chart_data, col_lines, year, font_chart_titles,
     ) +
 
     # Styling
-    facet_wrap(~name_f, ncol = 1, scales = "free_y") +
     scale_color_manual(values = col_lines) +
     ylab(NULL) +
     xlab(NULL) +
@@ -171,11 +170,11 @@ combine_plots <- function(chart_data,
   out_path <- sprintf("3_visualize/out/anim_frames/%s", file_out)
 
   # Plot constituent plots
-  plot_bottom <- build_map(
+  plot_top <- build_map(
     basemap = basemap, fire_pts = fire_pts, year = year,
     col_fire = col_fire, font_year
   )
-  plot_top <- build_graph(
+  plot_bottom <- build_graph(
     chart_data = chart_data,
     year = year,
     font_chart_titles = font_chart_titles,
