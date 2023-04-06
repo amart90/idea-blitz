@@ -19,8 +19,8 @@ p3_targets <- list(
       font_year = font_year,
       year = Years_expanded,
       col_bg = "#262626",
-      height = 2,
-      width = 5.5,
+      height = 4,
+      width = 3,
       font_main_title = font_main_title,
       file_out = sprintf("animation_%.3f.png", Years_expanded)
     ),

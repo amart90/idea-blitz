@@ -171,11 +171,11 @@ combine_plots <- function(chart_data,
   out_path <- sprintf("3_visualize/out/anim_frames/%s", file_out)
 
   # Plot constituent plots
-  plot_left <- build_map(
+  plot_bottom <- build_map(
     basemap = basemap, fire_pts = fire_pts, year = year,
     col_fire = col_fire, font_year
   )
-  plot_right <- build_graph(
+  plot_top <- build_graph(
     chart_data = chart_data,
     year = year,
     font_chart_titles = font_chart_titles,
@@ -184,7 +184,7 @@ combine_plots <- function(chart_data,
   )
 
   # Combine plots
-  plot_grid(plot_left, plot_right, nrow = 1) +
+  plot_grid(plot_top, plot_bottom, ncol = 1) +
 
     # Add year
     draw_label(
