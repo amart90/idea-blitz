@@ -4,7 +4,7 @@
 #'
 #' @param basemap Basemap raster.
 #' @param fire_pts Fire occurrence points.
-#' @param year Year of fire occurences to plot.
+#' @param year Year of fire occurrences to plot.
 #' @param col_fire Color of the fire points.
 #' @param font_year Font name for the printed year.
 #'
@@ -23,7 +23,7 @@ build_map <- function(basemap, fire_pts, year, col_fire, font_year) {
 
   # Filter fire points to all years prior to given year
   fire_pts_past <- fire_pts %>%
-    filter(Year_month < year)
+    filter(Year_month < year & Year_month > (year + 3))
 
   # Plotting
   ggplot() +
