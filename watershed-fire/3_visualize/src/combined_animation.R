@@ -118,12 +118,6 @@ build_graph <- function(chart_data, col_lines, year, font_chart_titles,
     theme(
       plot.background = element_rect(fill = "#262626", color = NA),
       panel.background = element_rect(fill = "#262626", color = NA),
-      strip.background = element_blank(),
-      strip.text = element_text(
-        color = "gray70", size = 5,
-        family = font_chart_titles, face = "bold"
-      ),
-      strip.placement = "outside",
       panel.spacing = unit(1 / 8, "in", data = NULL),
       legend.position = "none",
       axis.title.x = element_text(color = "gray70"),
@@ -183,11 +177,16 @@ combine_plots <- function(chart_data,
   )
 
   # Combine plots
-  plot_grid(plot_top, plot_bottom, ncol = 1) +
+  plot_grid(plot_top, plot_bottom, ncol = 1, rel_heights = c(1.8, 1)) +
+    
+    draw_label(
+      label = chart_data$name[1], x = 0.5, y = 0.35, hjust = 0.5,
+      size = 5, color = "gray70", fontfamily = font_chart_titles, fontface = "bold"
+    ) +
 
     # Add year
     draw_label(
-      label = floor(year), x = 0.03, y = 0.1, hjust = 0,
+      label = floor(year), x = 0.03, y = 0.425, hjust = 0,
       size = 20, color = "gray70", fontfamily = font_year, fontface = "bold"
     )
 

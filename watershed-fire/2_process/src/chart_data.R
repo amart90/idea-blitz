@@ -52,7 +52,7 @@ build_chart_data <- function(years, perim, huc) {
     pivot_longer(-one_of("Year")) %>%
     mutate(name = recode(name,
       "Population_affected_mil" =
-        "Millions of consumers of water from affected watersheds (millions of people)"
+        "Millions of consumers of water from affected watersheds"
     ))
 }
 
