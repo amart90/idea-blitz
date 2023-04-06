@@ -184,13 +184,13 @@ combine_plots <- function(chart_data,
   )
 
   # Combine plots
-  plot_grid(plot_left, plot_right, nrow = 1) #+
+  plot_grid(plot_left, plot_right, nrow = 1) +
 
-    # # Add year
-    # draw_label(
-    #   label = floor(year), x = 0.03, y = 0.1, hjust = 0,
-    #   size = 20, color = "gray70", fontfamily = font_year, fontface = "bold"
-    # )
+    # Add year
+    draw_label(
+      label = floor(year), x = 0.03, y = 0.1, hjust = 0,
+      size = 20, color = "gray70", fontfamily = font_year, fontface = "bold"
+    )
 
   # Export data
   ggsave(
@@ -215,17 +215,9 @@ combine_plots <- function(chart_data,
 #' @param frame_rate Frames per second.
 #'
 animate_plots <- function(in_frames, out_file, labels, inter_frames, reduce = TRUE,
-                          frame_delay_cs, frame_rate, fade_col, font_year, year_col) {
-  # Prep fonts
-  showtext_opts(dpi = 300, regular.wt = 400, bold.wt = 800)
-  #showtext_auto(enable = TRUE)
-  
-  label_index <- c(rep(1:(length(in_frames)), each = (inter_frames + 1)), length(in_frames))
-  label_list <- c(head(labels[label_index], -1), rep("", 2 * inter_frames), rep(labels[1], 2))
+                          frame_delay_cs, frame_rate, fade_col) {
 
   img <- image_draw(image_read(in_frames))
-  
-  showtext_begin()
   
   out <- image_resize(img, "65x65%") %>%
     {image_join(
@@ -235,11 +227,7 @@ animate_plots <- function(in_frames, out_file, labels, inter_frames, reduce = TR
       tail(., 1)
     )} %>%
     image_morph(frames = inter_frames) %>%
-    head(-1) %>%
-    image_annotate(label_list, color = year_col, font = font_year, size = 20, weight = 700, location = "+50+30", gravity = "southwest")
-  
-  showtext_end()
-  dev.off()
+    head(-1)
   
   out <- out  %>%
     image_animate(

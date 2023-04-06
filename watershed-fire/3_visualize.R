@@ -16,7 +16,7 @@ p3_targets <- list(
       basemap = basemap,
       fire_pts = map_data,
       col_fire = "#c94b10",
-      #font_year = font_year,
+      font_year = font_year,
       year = Years_expanded,
       col_bg = "#262626",
       height = 2,
