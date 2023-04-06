@@ -23,7 +23,7 @@ build_map <- function(basemap, fire_pts, year, col_fire, font_year) {
 
   # Filter fire points to all years prior to given year
   fire_pts_past <- fire_pts %>%
-    filter(Year_month < year & Year_month > (year + 3))
+    filter(Year_month < year & Year_month > (year - 3))
 
   # Plotting
   ggplot() +
