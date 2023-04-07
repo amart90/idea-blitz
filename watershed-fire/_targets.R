@@ -39,15 +39,10 @@ conus <- state.abb %>%
 interpolation_factor <- 12 # Data at the monthly
 
 # Define and add fonts
-font_main_title <- "Bungee Hairline"
 font_year <- "Turret Road"
 font_chart_titles <- "Turret Road"
 font_chart_axes <- "Turret Road"
-sapply(
-  unique(c(font_main_title, font_year, font_chart_titles, font_chart_axes)),
-  function(x) font_add_google(name = x)
-)
-font_add_google(name = c(font_main_title, font_year, font_chart_titles, font_chart_axes))
+walk(unique(c(font_year, font_chart_titles, font_chart_axes)), font_add_google)
 
 # Return list of targets
 c(p1_targets, p2_targets, p3_targets)

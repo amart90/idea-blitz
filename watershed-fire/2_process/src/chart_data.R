@@ -43,17 +43,16 @@ data_by_year <- function(perim, huc, year) {
 #' @param huc Water use by HUC dataset.
 #'
 build_chart_data <- function(years, perim, huc) {
-  # map(
-  #   years,
-  #   ~ data_by_year(perim, huc, .x)
-  # )
-  lapply(years, FUN = function(x) data_by_year(perim, huc, x)) %>%
+  map(
+    years,
+    ~ data_by_year(perim, huc, .x)) %>%
     bind_rows() %>%
     pivot_longer(-one_of("Year")) %>%
-    mutate(name = recode(name,
-      "Population_affected_mil" =
-        "Millions of consumers of water from affected watersheds"
-    ))
+    mutate(
+      name = recode(name,
+                    "Population_affected_mil" =
+                      "Millions of consumers of water from affected watersheds")
+    )
 }
 
 #' Linear interpolation

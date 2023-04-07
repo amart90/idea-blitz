@@ -144,8 +144,6 @@ build_graph <- function(chart_data, col_lines, year, font_chart_titles,
 #' @param fire_pts Fire occurrence points.
 #' @param col_fire Color of the fire points.
 #' @param font_year Font name for the printed year.
-#'
-#' @param font_main_title Font name for the main title.
 #' @param year Year from which to plot data.
 #' @param col_bg Color of the image background.
 #' @param height Height of the image in inches.

@@ -22,7 +22,6 @@ p3_targets <- list(
       col_bg = "#262626",
       height = 3,
       width = 3,
-      font_main_title = font_main_title,
       file_out = sprintf("animation_%.3f.png", Years_expanded)
     ),
     pattern = map(Years_expanded),
