@@ -223,9 +223,10 @@ combine_plots <- function(chart_data,
 #'   https://www.npmjs.com/package/gifsicle).
 #' @param frame_delay_cs Delay after each frame in 1/100 seconds.
 #' @param frame_rate Frames per second.
+#' @param output_video file also be written as mp4? Requires FFMPEG to be installed
 #'
 animate_plots <- function(in_frames, out_file, labels, inter_frames, reduce = TRUE,
-                          frame_delay_cs, frame_rate, fade_col) {
+                          frame_delay_cs, frame_rate, fade_col,output_video = FALSE) {
 
   img <- image_draw(image_read(in_frames))
   
@@ -250,6 +251,18 @@ animate_plots <- function(in_frames, out_file, labels, inter_frames, reduce = TR
   if (reduce == TRUE) {
     optimize_gif(out_file, frame_delay_cs)
   }
+  
+  if (output_video == TRUE) {
+    out_video_file <- str_replace(out_file, ".gif", ".mp4")
+    video_conversion_command <- sprintf(
+      'ffmpeg -i %s -movflags faststart -y -pix_fmt yuv420p -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" %s',
+      out_file,
+      out_video_file
+    )
+    system(video_conversion_command)
+    
+    return(out_file)
+  }
 }
 
 optimize_gif <- function(out_file, frame_delay_cs) {
@@ -262,4 +275,5 @@ optimize_gif <- function(out_file, frame_delay_cs) {
   system(gifsicle_command)
 
   return(out_file)
+  
 }

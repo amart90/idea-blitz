@@ -38,7 +38,8 @@ p3_targets <- list(
       reduce = TRUE,
       frame_delay_cs = 05,
       frame_rate = 60,
-      fade_col = "#262626"
+      fade_col = "#262626",
+      output_video = TRUE
     ),
     format = "file"
   )
