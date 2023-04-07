@@ -31,7 +31,7 @@ source("2_process.R")
 source("3_visualize.R")
 
 # Define parameters
-year_range <- c(1984, 2020)
+year_range <- c(2000, 2020)
 sf::sf_use_s2(FALSE) # Turn off spherical geometry
 crs <- 9311
 conus <- state.abb %>%
