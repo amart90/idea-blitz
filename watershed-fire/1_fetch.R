@@ -30,11 +30,18 @@ p1_targets <- list(
   ),
 
   # Download basemap tiles
-  tar_target(basemap,
+  tar_target(
+    basemap,
     get_basemap(
       file_in_for_extent = f2f2_huc12,
       file_out = "1_fetch/out/basemap.tif"
     ),
+    format = "file"
+  ),
+  
+  tar_target(
+    usgs_logo_file,
+    "1_fetch/in/USGS_ID_white.png",
     format = "file"
   )
 )

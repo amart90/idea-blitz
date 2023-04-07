@@ -159,6 +159,7 @@ combine_plots <- function(chart_data,
                           basemap, fire_pts,
                           col_fire, font_year,
                           font_main_title,
+                          usgs_logo_file,
                           year, col_bg,
                           height, width,
                           file_out) {
@@ -179,18 +180,29 @@ combine_plots <- function(chart_data,
   )
 
   # Combine plots
-  plot_grid(plot_top, plot_bottom, ncol = 1, rel_heights = c(1.8, 1)) +
+  plot_grid(plot_top, plot_bottom, ggdraw(), ncol = 1, rel_heights = c(1.8, 1, 0.26)) +
     
+    # Add chart title
     draw_label(
-      label = chart_data$name[1], x = 0.5, y = 0.35, hjust = 0.5,
+      label = chart_data$name[1], x = 0.97, y = 0.41, hjust = 1,
       size = 5, color = "gray70", fontfamily = font_chart_titles, fontface = "bold"
     ) +
 
     # Add year
     draw_label(
-      label = floor(year), x = 0.03, y = 0.425, hjust = 0,
+      label = floor(year), x = 0.03, y = 0.44, hjust = 0,
       size = 20, color = "gray70", fontfamily = font_year, fontface = "bold"
-    )
+    ) +
+    
+    # Add name and data source
+    draw_label(
+      label = "Anthony Martinez, USGS\nData: https://doi.org/10.2737/WO-GTR-99",
+      x = 0.97, y = 0.04,
+      size = 4.5, color = "gray70", fontfamily = font_chart_titles, hjust = 1
+    ) +
+    
+    # Add USGS logo
+    draw_image(usgs_logo_file, x = 0.03, y = -0.45, width = 0.18)
 
   # Export data
   ggsave(
